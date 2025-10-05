@@ -4,7 +4,7 @@ services:
     name: smartcity-test-v2
     env: node
     buildCommand: npm install && npm run build
-    startCommand: npx serve -s dist -l 10000
+    startCommand: npx serve -s dist -l 3000
     envVars:
       - key: NODE_VERSION
         value: 18

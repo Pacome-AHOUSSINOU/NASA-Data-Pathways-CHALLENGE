@@ -17,7 +17,7 @@ staticPublishPath: ./dist
 ```yaml
 env: node
 buildCommand: npm install && npm run build
-startCommand: npx serve -s dist -l 10000
+startCommand: npx serve -s dist -l 3000
 ```
 **Avantages**: Utilise serve directement sans dépendance
 **Inconvénients**: Plus complexe
