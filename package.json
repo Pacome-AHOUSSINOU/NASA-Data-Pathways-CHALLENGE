@@ -5,6 +5,7 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
+    "build": "npm install",
     "start": "node server.js",
     "dev": "NODE_ENV=development node server.js"
   },
