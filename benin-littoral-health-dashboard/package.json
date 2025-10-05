@@ -1,0 +1,28 @@
+{
+  "name": "benin-littoral-health-dashboard",
+  "version": "1.0.0",
+  "description": "Public health officer dashboard for Benin Littoral (Cotonou): health facilities and air quality using NASA/open data.",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "NODE_ENV=development node server.js"
+  },
+  "keywords": [
+    "leaflet",
+    "express",
+    "openaq",
+    "overpass",
+    "cotonou",
+    "benin",
+    "public-health"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "node-fetch": "^3.3.2",
+    "pino": "^9.4.0"
+  }
+}

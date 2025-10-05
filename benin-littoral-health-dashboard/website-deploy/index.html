@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Benin Littoral Public Health Dashboard</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Benin Littoral Public Health Dashboard</h1>
+    <p>City: Cotonou, Littoral, Benin • Data: OpenAQ, OpenStreetMap (Overpass)</p>
+  </header>
+  <main>
+    <div id="map"></div>
+    <div id="sidepanel">
+      <div class="panel-section">
+        <h2>Layers</h2>
+        <label><input type="checkbox" id="toggleFacilities" checked /> Health Facilities</label>
+        <label><input type="checkbox" id="toggleAir" checked /> Air Quality</label>
+        <label><input type="checkbox" id="toggleHotspots" checked /> Hotspots (demo)</label>
+        
+        <label><input type="checkbox" id="toggleSources" /> Pollution Sources (OSM)</label>
+        <div class="inline">
+          <label><input type="checkbox" id="togglePolluted" /> Polluted Areas</label>
+        </div>
+        <div class="inline">
+          <label><input type="checkbox" id="toggleAreas" /> Affected Areas</label>
+          <select id="areasMetric">
+            <option value="traffic_density">Traffic density</option>
+            <option value="factory_density">Factory density</option>
+            <option value="landfill_density">Landfill density</option>
+            <option value="power_density">Power plant density</option>
+            <option value="aq_points">Air quality points (proxy)</option>
+            <option value="combined_risk">Combined risk (sources + AQ)</option>
+          </select>
+        </div>
+      </div>
+      <div class="panel-section">
+        <h2>Actions</h2>
+        <button id="refreshBtn">Refresh Data</button>
+      </div>
+      <div class="panel-section">
+        <h2>Details</h2>
+        <div id="details">Click a marker or cell to see details.</div>
+      </div>
+      <div class="panel-section">
+        <h2>Legend</h2>
+        <div id="legend" class="legend"></div>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <small>Built for NASA Space Apps. Uses OpenAQ and OSM (Overpass). This demo computes a simple hotspot score for illustration only.</small>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="/app.js"></script>
+</body>
+</html>
