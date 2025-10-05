@@ -1,3 +1,4 @@
+# Configuration finale recommandée
 services:
   - type: web
     name: smartcity-app
