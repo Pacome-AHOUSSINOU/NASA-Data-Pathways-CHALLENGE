@@ -234,3 +234,205 @@ async def hotspots(request: Request) -> Dict[str, Any]:
 
     scores.sort(key=lambda x: x["need_score"], reverse=True)
     return {"grid": scores[:10]}
+
+
+@app.get("/api/pollution-zones")
+async def pollution_zones() -> Dict[str, Any]:
+    """
+    Retourne les zones de pollution spécifiques à Cotonou basées sur les données réelles
+    """
+    # Zones de pollution aérienne (rouge) - basées sur les données du plan de projet
+    air_pollution_zones = [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[
+                    [2.36, 6.36], [2.42, 6.36], [2.42, 6.42], [2.36, 6.42], [2.36, 6.36]
+                ]]
+            },
+            "properties": {
+                "zone_type": "air_pollution",
+                "name": "Dantokpa Market Area",
+                "description": "Zone critique de pollution NO₂ - Pic de 125 µmol/m² au carrefour Dantokpa",
+                "severity": "high",
+                "pollutants": ["NO₂", "PM2.5", "PM10"],
+                "color": "#ff0000"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[
+                    [2.38, 6.32], [2.45, 6.32], [2.45, 6.38], [2.38, 6.38], [2.38, 6.32]
+                ]]
+            },
+            "properties": {
+                "zone_type": "air_pollution",
+                "name": "Gbegamey Industrial Corridor",
+                "description": "Corridor industriel avec émissions élevées - Zone industrielle de Godomey",
+                "severity": "medium",
+                "pollutants": ["SO₂", "NO₂", "PM2.5"],
+                "color": "#ff4444"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[
+                    [2.30, 6.30], [2.36, 6.30], [2.36, 6.36], [2.30, 6.36], [2.30, 6.30]
+                ]]
+            },
+            "properties": {
+                "zone_type": "air_pollution",
+                "name": "Akpakpa Traffic Zone",
+                "description": "Zone de forte densité de trafic - Carrefours Akpakpa PK3 et Vêdoko Cica-Toyota",
+                "severity": "medium",
+                "pollutants": ["NO₂", "CO", "PM2.5"],
+                "color": "#ff6666"
+            }
+        }
+    ]
+    
+    # Zones de dégradation de la lagune (bleu)
+    lagoon_degradation_zones = [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[
+                    [2.40, 6.28], [2.50, 6.28], [2.50, 6.35], [2.40, 6.35], [2.40, 6.28]
+                ]]
+            },
+            "properties": {
+                "zone_type": "lagoon_degradation",
+                "name": "Cotonou Canal Mouth",
+                "description": "Eutrophisation détectée - Concentration élevée de chlorophylle-a à l'embouchure du canal",
+                "severity": "high",
+                "pollutants": ["Chlorophylle-a", "Nutriments organiques"],
+                "color": "#0066cc"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[
+                    [2.33, 6.30], [2.40, 6.30], [2.40, 6.35], [2.33, 6.35], [2.33, 6.30]
+                ]]
+            },
+            "properties": {
+                "zone_type": "lagoon_degradation",
+                "name": "Lagoon Central Area",
+                "description": "Zone de dégradation de la lagune - Rejets organiques et activités portuaires",
+                "severity": "medium",
+                "pollutants": ["Matières organiques", "Bactéries", "Hydrocarbures"],
+                "color": "#3399ff"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[
+                    [2.25, 6.25], [2.33, 6.25], [2.33, 6.32], [2.25, 6.32], [2.25, 6.25]
+                ]]
+            },
+            "properties": {
+                "zone_type": "lagoon_degradation",
+                "name": "Port de Cotonou Area",
+                "description": "Zone portuaire avec émissions polluantes affectant la qualité de l'eau",
+                "severity": "high",
+                "pollutants": ["Hydrocarbures", "Métaux lourds", "Sédiments"],
+                "color": "#004499"
+            }
+        }
+    ]
+    
+    # Îlots de chaleur urbains (jaune)
+    heat_island_zones = [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[
+                    [2.35, 6.38], [2.42, 6.38], [2.42, 6.45], [2.35, 6.45], [2.35, 6.38]
+                ]]
+            },
+            "properties": {
+                "zone_type": "heat_island",
+                "name": "Gbegamey Heat Island",
+                "description": "Îlot de chaleur critique - 38°C vs 29°C (9°C d'écart) - Quartier dense minéralisé",
+                "severity": "high",
+                "temperature": "38°C",
+                "color": "#ffaa00"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[
+                    [2.42, 6.35], [2.48, 6.35], [2.48, 6.42], [2.42, 6.42], [2.42, 6.35]
+                ]]
+            },
+            "properties": {
+                "zone_type": "heat_island",
+                "name": "Saint-Jean Heat Island",
+                "description": "Zone minéralisée avec îlot de chaleur - Quartiers Saint-Jean et Zongo",
+                "severity": "medium",
+                "temperature": "35°C",
+                "color": "#ffcc44"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[
+                    [2.30, 6.32], [2.38, 6.32], [2.38, 6.38], [2.30, 6.38], [2.30, 6.32]
+                ]]
+            },
+            "properties": {
+                "zone_type": "heat_island",
+                "name": "Ladji-Vêdoko Heat Corridor",
+                "description": "Corridor d'îlot de chaleur - Corrélation r=0.78 avec urbanisation dense",
+                "severity": "high",
+                "temperature": "36°C",
+                "color": "#ff8800"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[
+                    [2.25, 6.28], [2.35, 6.28], [2.35, 6.35], [2.25, 6.35], [2.25, 6.28]
+                ]]
+            },
+            "properties": {
+                "zone_type": "heat_island",
+                "name": "Centre-ville Heat Zone",
+                "description": "Zone fortement urbanisée du centre-ville avec peu de végétation",
+                "severity": "medium",
+                "temperature": "34°C",
+                "color": "#ffdd66"
+            }
+        }
+    ]
+    
+    # Combiner toutes les zones
+    all_zones = air_pollution_zones + lagoon_degradation_zones + heat_island_zones
+    
+    return {
+        "type": "FeatureCollection",
+        "features": all_zones,
+        "metadata": {
+            "total_zones": len(all_zones),
+            "air_pollution": len(air_pollution_zones),
+            "lagoon_degradation": len(lagoon_degradation_zones),
+            "heat_islands": len(heat_island_zones)
+        }
+    }
