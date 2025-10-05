@@ -1,14 +1,15 @@
 # Guide de Déploiement Render - Smart City
 
-## 🎯 Problème résolu
+## 🎯 Problèmes résolus
 
-L'erreur `npm error Missing script: "start"` a été résolue en configurant le projet pour utiliser un environnement Node.js avec le package `serve`.
+1. **Erreur "Missing script: start"** : Résolu en ajoutant un script start avec `npx serve`
+2. **Erreur 404 après déploiement** : Résolu en utilisant la syntaxe correcte de `serve` avec `npx`
 
 ## ✅ Solution appliquée
 
 ### 1. Modifications du `package.json`
-- **Ajout du script start** : `"start": "serve -s dist -l $PORT"`
-- **Ajout de la dépendance** : `"serve": "^14.2.3"`
+- **Ajout du script start** : `"start": "npx serve@latest dist -s -p $PORT"`
+- **Pas de dépendance nécessaire** : utilise `npx` pour la dernière version de `serve`
 
 ### 2. Configuration `render.yaml` finale
 ```yaml
