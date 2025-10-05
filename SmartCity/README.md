@@ -62,7 +62,61 @@ This project is built with:
 
 ## How can I deploy this project?
 
-Simply open [Lovable](https://lovable.dev/projects/138b4791-1be2-4869-92b8-212b94551d65) and click on Share -> Publish.
+### Déploiement sur Render
+
+Ce projet est configuré pour être déployé facilement sur Render. Suivez ces étapes :
+
+#### Option 1: Déploiement automatique avec render.yaml
+
+1. **Connectez votre repository à Render** :
+   - Allez sur [render.com](https://render.com)
+   - Créez un compte ou connectez-vous
+   - Cliquez sur "New +" puis "Static Site"
+   - Connectez votre repository GitHub
+
+2. **Configuration automatique** :
+   - Render détectera automatiquement le fichier `render.yaml`
+   - La configuration de build sera appliquée automatiquement :
+     - Build Command: `npm ci && npm run build`
+     - Publish Directory: `./dist`
+
+3. **Variables d'environnement** (optionnel) :
+   - Copiez `.env.example` vers `.env` et configurez vos variables
+   - Ajoutez les variables d'environnement dans l'interface Render
+
+#### Option 2: Déploiement manuel
+
+Vous pouvez également utiliser le script de déploiement inclus :
+
+```bash
+# Rendre le script exécutable (déjà fait)
+chmod +x deploy.sh
+
+# Exécuter le script de déploiement
+./deploy.sh
+```
+
+#### Configuration des variables d'environnement
+
+1. Copiez le fichier `.env.example` :
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Modifiez `.env` avec vos valeurs spécifiques
+
+3. Dans Render, ajoutez ces variables dans la section "Environment"
+
+#### Structure des fichiers de déploiement
+
+- `render.yaml` : Configuration principale pour Render
+- `public/_redirects` : Gestion des routes SPA
+- `.env.example` : Template des variables d'environnement
+- `deploy.sh` : Script de déploiement local
+
+### Déploiement sur Lovable
+
+Vous pouvez aussi déployer via [Lovable](https://lovable.dev/projects/138b4791-1be2-4869-92b8-212b94551d65) en cliquant sur Share -> Publish.
 
 ## Can I connect a custom domain to my Lovable project?
 
