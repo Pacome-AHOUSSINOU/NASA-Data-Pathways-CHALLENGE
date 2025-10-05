@@ -186,4 +186,4 @@ Ce plan démontre comment les données d'observation de la Terre de la NASA peuv
 
 ---
 
-*Plan élaboré dans le cadre du NASA Data Pathways Challenge - Hackathon 2024*
+*Plan élaboré dans le cadre du NASA Data Pathways Challenge - Hackathon 2025*
