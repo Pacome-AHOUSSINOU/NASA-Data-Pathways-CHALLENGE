@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>🌍 Visualisation GIBS - Avec Place Labels et Villes Dynamiques</title>
+  <title>🌍 GIBS Visualization - With Place Labels and Dynamic Cities</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
@@ -38,7 +38,7 @@
 <div id="map"></div>
 
 <select id="citySelector">
-  <option value="" selected>-- Sélectionner une ville --</option>
+  <option value="" selected>-- Select a city --</option>
   <option value="Cotonou">Cotonou</option>
   <option value="Abidjan">Abidjan</option>
   <option value="Paris">Paris</option>
@@ -58,22 +58,22 @@
     box-shadow: 0 2px 10px rgba(0,0,0,0.3);
     font-family: Arial, sans-serif;
 ">
-  <h4>🔔 Derniers événements</h4>
+  <h4>🔔 Latest Events</h4>
   <ul id="eventList" style="list-style:none; padding:0; margin:0;"></ul>
 </div>
 
 <div class="legend" id="legend">
-  <b>📊 Légende</b><br>
+  <b>📊 Legend</b><br>
   🔴 Aerosol / Pollution (GIBS)<br>
-  🟢 Population / Santé (GPW)<br>
-  🌿 Végétation / Zones terrestres<br>
-  ⚫ Références cartographiques : étiquettes, frontières, côtes
+  🟢 Population / Health (GPW)<br>
+  🌿 Vegetation / Land areas<br>
+  ⚫ Map references: labels, borders, coastlines
 </div>
 
 <script>
-/* --------- Initialisation de la carte --------- */
+/* --------- Map initialization --------- */
 const map = L.map('map', {
-  center: [14.7, -17.4], // Dakar par défaut
+  center: [14.7, -17.4], // Default: Dakar
   zoom: 5,
   crs: L.CRS.EPSG4326
 });
@@ -83,7 +83,7 @@ const dateValue = () => document.getElementById('dateInput')?.value || d.toISOSt
 
 const gibsWMS = "https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi";
 
-/* --------- Panes pour z-index --------- */
+/* --------- Panes for z-index --------- */
 map.createPane('basePane'); map.getPane('basePane').style.zIndex = 200;
 map.createPane('overlayPane'); map.getPane('overlayPane').style.zIndex = 300;
 map.createPane('labelPane'); map.getPane('labelPane').style.zIndex = 650;
@@ -126,7 +126,7 @@ const baseLayers = {
 
 baseLayers["Blue Marble (2004)"].addTo(map);
 
-/* --------- Fonction utilitaire pour overlays --------- */
+/* --------- Utility function for overlays --------- */
 function createOverlayWMS(layerName, opts = {}) {
   return L.tileLayer.wms(gibsWMS, Object.assign({
     layers: layerName,
@@ -138,25 +138,25 @@ function createOverlayWMS(layerName, opts = {}) {
   }, opts));
 }
 
-/* --------- Overlays principaux --------- */
+/* --------- Main overlays --------- */
 let aerosolLayer = createOverlayWMS("MODIS_Terra_Aerosol", {opacity: 0.65, time: dateValue()});
 let populationLayer = createOverlayWMS("GPW_Population_Density_2020", {opacity: 0.5});
 let firesLayer = createOverlayWMS("MODIS_Terra_Fires", {opacity:0.7, time: dateValue()});
 let vegetationLayer = createOverlayWMS("MODIS_Terra_CorrectedReflectance_Bands721", {opacity:0.6, time: dateValue()});
 let temperatureLayer = createOverlayWMS("MODIS_Terra_Land_Surface_Temp_Day", {opacity:0.6, time: dateValue()});
 
-/* --------- Références / labels --------- */
+/* --------- Reference layers / labels --------- */
 let featuresLayer = createOverlayWMS("Reference_Features", {opacity:0.85});
 let coastlinesLayer = createOverlayWMS("Coastlines", {opacity:0.95});
 let labelsLayer = createOverlayWMS("Reference_Labels");
 
-/* --------- Markers locaux --------- */
+/* --------- Local markers --------- */
 const healthGroup = L.layerGroup([], {pane:'overlayPane'});
 const marker = L.circleMarker([14.7167, -17.4677], { radius:7, color:'#28a745', fillColor:'#28a745', fillOpacity:0.9 });
-marker.bindPopup("<b>Hôpital Principal de Dakar</b>");
+marker.bindPopup("<b>Main Hospital of Dakar</b>");
 healthGroup.addLayer(marker);
 
-/* --------- Overlay OSM dynamique --------- */
+/* --------- Dynamic OSM overlay --------- */
 const osmOverlayGroup = L.layerGroup([], {pane:'overlayPane'});
 
 const cityCoords = {
@@ -170,13 +170,13 @@ async function loadOSMCity(city, lat, lon){
   const delta = 0.15;
   const bbox = [lat-delta, lon-delta, lat+delta, lon+delta].join(',');
   
-  // villes (place=city/town)
+  // cities (place=city/town)
   const queryCities = `[out:json][timeout:25]; node["place"~"city|town"](${bbox}); out body; >; out skel qt;`;
   const urlCities = "https://overpass-api.de/api/interpreter?data=" + encodeURIComponent(queryCities);
   const respCities = await fetch(urlCities);
   const dataCities = await respCities.json();
   dataCities.elements.forEach(node => {
-    const name = node.tags.name || "Inconnu";
+    const name = node.tags.name || "Unknown";
     const population = node.tags.population ? parseInt(node.tags.population) : 0;
     const radius = population ? Math.sqrt(population)/100 : 4;
     const marker = L.circleMarker([node.lat, node.lon], {
@@ -188,13 +188,13 @@ async function loadOSMCity(city, lat, lon){
     osmOverlayGroup.addLayer(marker);
   });
   
-  // zones de santé
+  // health facilities
   const queryHealth = `[out:json][timeout:25]; node["amenity"~"hospital|clinic"](${bbox}); out body; >; out skel qt;`;
   const urlHealth = "https://overpass-api.de/api/interpreter?data=" + encodeURIComponent(queryHealth);
   const respHealth = await fetch(urlHealth);
   const dataHealth = await respHealth.json();
   dataHealth.elements.forEach(node => {
-    const name = node.tags.name || "Inconnu";
+    const name = node.tags.name || "Unknown";
     const marker = L.circleMarker([node.lat, node.lon], {
       radius: 6,
       color: '#28a745',
@@ -205,23 +205,23 @@ async function loadOSMCity(city, lat, lon){
   });
 }
 
-/* --------- Panneau de contrôle --------- */
+/* --------- Control panel --------- */
 const overlays = {
   "🟥 Aerosol (MODIS AOD)": aerosolLayer,
   "🟠 Population (GPW)": populationLayer,
-  "🔥 Feux actifs (MODIS)": firesLayer,
-  "🌿 Végétation (MODIS)": vegetationLayer,
-  "🌡️ Température surface (MODIS)": temperatureLayer,
-  "🏥 Infrastructures santé (points)": healthGroup,
+  "🔥 Active Fires (MODIS)": firesLayer,
+  "🌿 Vegetation (MODIS)": vegetationLayer,
+  "🌡️ Surface Temperature (MODIS)": temperatureLayer,
+  "🏥 Health infrastructure (points)": healthGroup,
   "🛣️ Borders / Roads": featuresLayer,
   "🌊 Coastlines": coastlinesLayer,
   "🗂️ Place Labels": labelsLayer,
-  "🌐 OSM Dynamique (Villes + Santé)": osmOverlayGroup
+  "🌐 Dynamic OSM (Cities + Health)": osmOverlayGroup
 };
 
 L.control.layers(baseLayers, overlays, {collapsed:false}).addTo(map);
 
-/* --------- Événements EONET --------- */
+/* --------- EONET Events --------- */
 const eventsGroup = L.layerGroup().addTo(map);
 async function loadEvents() {
   try {
@@ -261,7 +261,7 @@ document.getElementById('chkPopulation')?.addEventListener('change', e=>{ e.targ
 document.getElementById('chkCoastlines')?.addEventListener('change', e=>{ e.target.checked? coastlinesLayer.addTo(map) : map.removeLayer(coastlinesLayer); });
 document.getElementById('chkFeatures')?.addEventListener('change', e=>{ e.target.checked? featuresLayer.addTo(map) : map.removeLayer(featuresLayer); });
 
-/* --------- Mise à jour des couches temporelles --------- */
+/* --------- Update time-dependent layers --------- */
 function refreshDateLayers() {
   const t = dateValue();
   aerosolLayer.setParams({time:t});
@@ -270,7 +270,7 @@ function refreshDateLayers() {
 }
 document.getElementById('dateInput')?.addEventListener('change', refreshDateLayers);
 
-/* --------- Sélecteur de ville --------- */
+/* --------- City selector --------- */
 document.getElementById("citySelector").addEventListener("change", function(){
   const city = this.value;
   if(cityCoords[city]){
