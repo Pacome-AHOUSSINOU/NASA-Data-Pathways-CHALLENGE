@@ -191,7 +191,7 @@ Link to our presentation https://prezi.com/view/Rh5UDf1S1kGivhjzoz4X/?referral_t
 Link to our final projects
 
 https://nasa-data-pathways-challenge-7.onrender.com/
-https://smart-city-3d-nasa.surge.sh
+https://07d64f5e5030db924cb50e6ec4ea3862.serveo.net
 https://nasa-urban-health.surge.sh
 
 
