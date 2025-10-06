@@ -186,4 +186,13 @@ This plan demonstrates how NASA Earth observation data can guide targeted and me
 
 ---
 
+Link to our presentation https://prezi.com/view/Rh5UDf1S1kGivhjzoz4X/?referral_token=BtmE8qlnB3FN
+
+Link to our final projects
+
+https://nasa-data-pathways-challenge-7.onrender.com/
+https://smart-city-3d-nasa.surge.sh
+https://nasa-urban-health.surge.sh
+
+
 *Plan developed as part of the NASA Data Pathways Challenge - Hackathon 2025*
