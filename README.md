@@ -192,7 +192,7 @@ Link to our final projects
 
 https://nasa-data-pathways-challenge-7.onrender.com/
 https://07d64f5e5030db924cb50e6ec4ea3862.serveo.net
-https://nasa-urban-health.surge.sh
+https://410ac2a8123fe517ab941989baeed426.serveo.net/
 
 
 *Plan developed as part of the NASA Data Pathways Challenge - Hackathon 2025*

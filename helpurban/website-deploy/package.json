@@ -1,0 +1,16 @@
+{
+  "name": "urban-health-monitor",
+  "version": "1.0.0",
+  "description": "Urban Health & Environment Monitor - NASA GIBS Data Explorer",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve . -s -l 3001",
+    "dev": "npx serve . -l 8081"
+  },
+  "keywords": ["nasa", "gibs", "urban-health", "environment", "satellite-data", "leaflet"],
+  "author": "NASA Challenge Team",
+  "license": "MIT",
+  "dependencies": {
+    "serve": "^14.2.5"
+  }
+}
