@@ -1,0 +1,16 @@
+{
+  "name": "smartcity-nasa-3d",
+  "version": "1.0.0",
+  "description": "Smart City 3D Interactive Application - NASA Data Pathways Challenge",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "npx serve . -l 8080"
+  },
+  "keywords": ["smart-city", "3d", "nasa", "sustainability", "react"],
+  "author": "NASA Challenge Team",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
